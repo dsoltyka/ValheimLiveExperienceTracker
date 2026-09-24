@@ -55,9 +55,9 @@ namespace LiveExperienceTracker
             RowSpacing = config.Bind(layout, "RowSpacing", 2f,
                 new ConfigDescription("Vertical gap between skill rows.", new AcceptableValueRange<float>(0f, 40f)));
             OffsetX = config.Bind(layout, "OffsetX", 0f,
-                "Horizontal offset from the bottom-left corner of the hotbar, in pixels. Positive moves right.");
+                "Horizontal offset from the left edge of the health panel, in pixels. Positive moves right.");
             OffsetY = config.Bind(layout, "OffsetY", 4f,
-                "Vertical gap below the hotbar, in pixels. Positive moves down.");
+                "Vertical gap above the health panel, in pixels. Positive moves up.");
 
             SkillNameColor = config.Bind(colors, "SkillName", new Color(1f, 0.85f, 0.2f), "Color of the skill name.");
             ValueColor = config.Bind(colors, "Values", Color.white, "Color of the (current / needed) XP text.");

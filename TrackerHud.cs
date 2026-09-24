@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace LiveExperienceTracker
 {
     /// <summary>
-    /// Owns the list of skill rows under the hotbar. Lives on the plugin object for the whole session;
+    /// Owns the list of skill rows shown above the health panel. Lives on the plugin object for the whole session;
     /// the UI itself is parented to the game's HUD root so it appears, hides and is destroyed along with it.
     /// </summary>
     internal sealed class TrackerHud : MonoBehaviour
@@ -18,9 +18,10 @@ namespace LiveExperienceTracker
 
         private readonly Dictionary<Skills.SkillType, SkillRow> _rows = new Dictionary<Skills.SkillType, SkillRow>();
         private readonly List<Skills.SkillType> _expired = new List<Skills.SkillType>();
+        private readonly List<RectTransform> _anchorRects = new List<RectTransform>();
 
         private RectTransform _root;
-        private RectTransform _hotbar;
+        private RectTransform _anchor;
         private TMP_FontAsset _font;
         private Material _fontMaterial;
         private bool _rebuildRequested;
@@ -70,7 +71,7 @@ namespace LiveExperienceTracker
                     _rows.Clear();
                 }
                 _root = null;
-                _hotbar = null;
+                _anchor = null;
                 return;
             }
 
@@ -82,7 +83,10 @@ namespace LiveExperienceTracker
             }
 
             ExpireRows();
-            PositionUnderHotbar();
+            if (_rows.Count > 0)
+            {
+                PositionAboveHealthPanel();
+            }
         }
 
         private void ExpireRows()
@@ -121,47 +125,44 @@ namespace LiveExperienceTracker
         }
 
         /// <summary>
-        /// Pins our top-left corner to the bottom-left of the hotbar. The HotkeyBar rect itself is just a pivot with
-        /// the slot icons hanging off it, so the bounds are taken over the bar and its (active) children.
+        /// Pins our bottom-left corner to the top-left of the health panel (health bar, food and guardian power in the
+        /// bottom-left of the screen). The panel grows with food/health, so the bounds are taken over it and all of its
+        /// active children every frame.
         /// </summary>
-        private void PositionUnderHotbar()
+        private void PositionAboveHealthPanel()
         {
-            if (_hotbar == null)
+            if (_anchor == null)
             {
-                var bar = Hud.instance.GetComponentInChildren<HotkeyBar>(true);
-                _hotbar = bar != null ? bar.transform as RectTransform : null;
+                _anchor = Hud.instance.m_healthPanel;
             }
 
-            if (_hotbar == null)
+            if (_anchor == null)
             {
-                // No hotbar found (another mod replaced it?). Fall back to a fixed top-left position.
-                _root.anchoredPosition = new Vector2(S.OffsetX.Value, -(S.OffsetY.Value + 90f));
+                // No health panel found (another mod replaced it?). Fall back to a fixed bottom-left position.
+                _root.anchoredPosition = new Vector2(S.OffsetX.Value, S.OffsetY.Value + 220f);
                 return;
             }
 
             float minX = float.PositiveInfinity;
-            float minY = float.PositiveInfinity;
-            AccumulateBounds(_hotbar, ref minX, ref minY);
-            for (int i = 0; i < _hotbar.childCount; i++)
+            float maxY = float.NegativeInfinity;
+            _anchor.GetComponentsInChildren(false, _anchorRects);
+            foreach (var rect in _anchorRects)
             {
-                var child = _hotbar.GetChild(i) as RectTransform;
-                if (child != null && child.gameObject.activeSelf)
-                {
-                    AccumulateBounds(child, ref minX, ref minY);
-                }
+                AccumulateBounds(rect, ref minX, ref maxY);
             }
+            _anchorRects.Clear();
 
-            _root.position = new Vector3(minX, minY, _hotbar.position.z);
-            _root.anchoredPosition += new Vector2(S.OffsetX.Value, -S.OffsetY.Value);
+            _root.position = new Vector3(minX, maxY, _anchor.position.z);
+            _root.anchoredPosition += new Vector2(S.OffsetX.Value, S.OffsetY.Value);
         }
 
-        private static void AccumulateBounds(RectTransform rect, ref float minX, ref float minY)
+        private static void AccumulateBounds(RectTransform rect, ref float minX, ref float maxY)
         {
             rect.GetWorldCorners(Corners);
             for (int i = 0; i < 4; i++)
             {
                 if (Corners[i].x < minX) minX = Corners[i].x;
-                if (Corners[i].y < minY) minY = Corners[i].y;
+                if (Corners[i].y > maxY) maxY = Corners[i].y;
             }
         }
 
@@ -183,14 +184,15 @@ namespace LiveExperienceTracker
             var go = new GameObject("LiveExperienceTracker", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
             go.transform.SetParent(hud.m_rootObject.transform, false);
 
+            // Bottom-left pivot: the list grows upward from the top of the health panel.
             _root = (RectTransform)go.transform;
-            _root.anchorMin = new Vector2(0f, 1f);
-            _root.anchorMax = new Vector2(0f, 1f);
-            _root.pivot = new Vector2(0f, 1f);
+            _root.anchorMin = Vector2.zero;
+            _root.anchorMax = Vector2.zero;
+            _root.pivot = Vector2.zero;
 
             var layout = go.GetComponent<VerticalLayoutGroup>();
             layout.spacing = S.RowSpacing.Value;
-            layout.childAlignment = TextAnchor.UpperLeft;
+            layout.childAlignment = TextAnchor.LowerLeft;
             layout.childControlWidth = true;
             layout.childControlHeight = true;
             layout.childForceExpandWidth = false;
@@ -200,7 +202,7 @@ namespace LiveExperienceTracker
             fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-            _hotbar = null;
+            _anchor = null;
             return true;
         }
 
@@ -232,7 +234,7 @@ namespace LiveExperienceTracker
                 Destroy(_root.gameObject);
             }
             _root = null;
-            _hotbar = null;
+            _anchor = null;
         }
     }
 }

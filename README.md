@@ -1,8 +1,8 @@
 # Live Experience Tracker
 
-A small client-side Valheim mod that shows your skill XP as you earn it, right under the hotbar.
+A small client-side Valheim mod that shows your skill XP as you earn it, in the bottom-left corner just above your health and food.
 
-Every time an action grants skill XP a row appears for that skill:
+Every time an action grants skill XP a row appears for that skill, stacking upward from the health panel:
 
 ```
 Swords  [██████░░░░░░]  (7.35 / 12.02)  +1.00
@@ -35,12 +35,12 @@ Requires [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepI
 | Layout | `BarWidth` / `BarHeight` | 120 / 10 | Progress bar size in pixels |
 | Layout | `ElementSpacing` | 6 | Gap between name, bar and numbers |
 | Layout | `RowSpacing` | 2 | Gap between rows |
-| Layout | `OffsetX` / `OffsetY` | 0 / 4 | Nudge from the hotbar's bottom-left corner |
+| Layout | `OffsetX` / `OffsetY` | 0 / 4 | Nudge from the health panel's top-left corner |
 | Colors | `SkillName`, `Values`, `Gain`, `BarFill`, `BarBackground` | | Row colors |
 
 ## How it works
 
-The game applies every skill gain through `Skills.Skill.Raise`. The mod postfixes that with Harmony, reads the skill's accumulator and next-level requirement, and updates the matching row. The UI is plain uGUI + TextMeshPro parented to the HUD root, using the HUD's own font so it matches the rest of the interface. It hides with the HUD (Ctrl+F3) and is anchored to the hotbar, so it follows GUI scale changes.
+The game applies every skill gain through `Skills.Skill.Raise`. The mod postfixes that with Harmony, reads the skill's accumulator and next-level requirement, and updates the matching row. The UI is plain uGUI + TextMeshPro parented to the HUD root, using the HUD's own font so it matches the rest of the interface. It hides with the HUD (Ctrl+F3) and is anchored to the health panel, so it follows GUI scale changes and the panel growing with food.
 
 ## Building
 
