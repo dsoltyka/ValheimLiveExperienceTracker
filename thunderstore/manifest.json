@@ -2,7 +2,7 @@
   "name": "LiveExperienceTracker",
   "version_number": "1.0.0",
   "website_url": "https://github.com/dsoltyka/ValheimLiveExperienceTracker",
-  "description": "Shows live skill XP gains under the hotbar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.",
+  "description": "Shows live skill XP gains above your health bar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.",
   "dependencies": [
     "denikson-BepInExPack_Valheim-5.4.2350",
     "ValheimModding-Jotunn-2.30.2"

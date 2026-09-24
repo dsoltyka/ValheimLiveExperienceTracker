@@ -4,7 +4,7 @@
     <AssemblyName>LiveExperienceTracker</AssemblyName>
     <RootNamespace>LiveExperienceTracker</RootNamespace>
     <Version>1.0.0</Version>
-    <Description>Shows live skill XP gains under the hotbar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.</Description>
+    <Description>Shows live skill XP gains above your health bar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.</Description>
     <ThunderstoreWebsite>https://github.com/dsoltyka/ValheimLiveExperienceTracker</ThunderstoreWebsite>
   </PropertyGroup>
 
