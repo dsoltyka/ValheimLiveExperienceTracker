@@ -44,25 +44,10 @@ Requires [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepI
 
 The game applies every skill gain through `Skills.Skill.Raise`. The mod postfixes that with Harmony, reads the skill's accumulator and next-level requirement, and updates the matching row. The UI is plain uGUI + TextMeshPro parented to the HUD root, using the HUD's own font so it matches the rest of the interface. It hides with the HUD (Ctrl+F3) and is anchored to the health panel, so it follows GUI scale changes and the panel growing with food.
 
-## Building
+## Source
 
-The project imports shared MSBuild props from the [ValheimModBuild](https://github.com/dsoltyka/ValheimModBuild) repo, which must be cloned next to this one:
-
-```
-<parent>/
-  ValheimModBuild/
-  ValheimLiveExperienceTracker/
-```
-
-Then:
-
-```
-dotnet build                                          # build + copy DLL into your Thunderstore profile
-dotnet build -c Release -p:ThunderstorePack=true      # also write thunderstore/manifest.json and the upload zip
-```
-
-Paths to the game and the BepInEx profile are configured once in `ValheimModBuild/Valheim.Local.props` (see that repo's README).
+Code is on GitHub at [dsoltyka/ValheimLiveExperienceTracker](https://github.com/dsoltyka/ValheimLiveExperienceTracker). Build instructions are in [BUILDING.md](https://github.com/dsoltyka/ValheimLiveExperienceTracker/blob/main/BUILDING.md).
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/dsoltyka/ValheimLiveExperienceTracker/blob/main/LICENSE).
