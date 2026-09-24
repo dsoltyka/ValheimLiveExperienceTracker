@@ -1,6 +1,6 @@
 {
   "name": "LiveExperienceTracker",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/dsoltyka/ValheimLiveExperienceTracker",
   "description": "Shows live skill XP gains above your health bar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.",
   "dependencies": [

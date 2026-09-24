@@ -2,6 +2,8 @@
 
 A small client-side Valheim mod that shows your skill XP as you earn it, in the bottom-left corner just above your health and food.
 
+![Skill rows above the health panel](https://raw.githubusercontent.com/dsoltyka/ValheimLiveExperienceTracker/main/docs/screenshot.png)
+
 Every time an action grants skill XP a row appears for that skill, stacking upward from the health panel:
 
 ```
