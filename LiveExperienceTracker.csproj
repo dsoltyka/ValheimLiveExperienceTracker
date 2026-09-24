@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>LiveExperienceTracker</AssemblyName>
+    <RootNamespace>LiveExperienceTracker</RootNamespace>
+    <Version>1.0.0</Version>
+    <Description>Shows live skill XP gains under the hotbar: skill name, progress bar, current/needed XP and the latest gain, one row per skill.</Description>
+    <ThunderstoreWebsite>https://github.com/dsoltyka/ValheimLiveExperienceTracker</ThunderstoreWebsite>
+  </PropertyGroup>
+
+  <!--
+    Game/BepInEx/Jotunn references, deploy and Thunderstore packaging come from the shared
+    ValheimModBuild repo, expected next to this one:
+      https://github.com/dsoltyka/ValheimModBuild
+  -->
+  <PropertyGroup>
+    <ValheimModBuild>$(MSBuildThisFileDirectory)..\ValheimModBuild\Valheim.Mod.props</ValheimModBuild>
+  </PropertyGroup>
+  <Import Project="$(ValheimModBuild)" Condition="Exists('$(ValheimModBuild)')" />
+  <Target Name="RequireValheimModBuild" BeforeTargets="Build;Restore;CollectPackageReferences" Condition="!Exists('$(ValheimModBuild)')">
+    <Error Text="Shared build props not found at '$(ValheimModBuild)'. Clone https://github.com/dsoltyka/ValheimModBuild next to this repo (see README)." />
+  </Target>
+
+</Project>
