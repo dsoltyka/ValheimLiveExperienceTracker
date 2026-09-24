@@ -46,7 +46,13 @@ The game applies every skill gain through `Skills.Skill.Raise`. The mod postfixe
 
 ## Source
 
-Code is on GitHub at [dsoltyka/ValheimLiveExperienceTracker](https://github.com/dsoltyka/ValheimLiveExperienceTracker). Build instructions are in [BUILDING.md](https://github.com/dsoltyka/ValheimLiveExperienceTracker/blob/main/BUILDING.md).
+Code is on GitHub at [dsoltyka/ValheimLiveExperienceTracker](https://github.com/dsoltyka/ValheimLiveExperienceTracker).
+
+<!-- github-only -->
+## Building
+
+See [BUILDING.md](BUILDING.md). This section is stripped from the copy of the README that ships to Thunderstore.
+<!-- /github-only -->
 
 ## License
 
