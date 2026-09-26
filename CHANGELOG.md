@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Edits to the config file are now picked up live while the game is running.
+
 ## 1.0.2
 
 - Mod page cleanup: build instructions no longer appear on Thunderstore. No functional changes.

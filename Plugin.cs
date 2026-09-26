@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using ValheimModShared;
 
 namespace LiveExperienceTracker
 {
@@ -23,6 +24,7 @@ namespace LiveExperienceTracker
         {
             Log = Logger;
             Settings = new Settings(Config);
+            ConfigWatcher.Watch(Config, Log);
 
             _harmony = new Harmony(PluginGuid);
             _harmony.PatchAll(typeof(SkillGainPatches));
